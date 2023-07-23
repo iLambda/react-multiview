@@ -15,7 +15,7 @@
     "src"
   ],
   "scripts": {
-    "prepack": "tsc --outDir ./dist",
+    "prepare": "tsc --outDir ./dist",
     "build": "tsc --outDir ./dist"
   },
   "repository": "git@github.com:iLambda/react-multiview.git",
