@@ -15,7 +15,7 @@ module.exports = {
         project: './tsconfig.json',
         sourceType: 'module' 
     },
-    ignorePatterns: ['.eslintrc.cjs'],
+    ignorePatterns: ['.eslintrc.cjs', 'dist/**'],
     plugins: ['react', 'unused-imports'],
     rules: {
         'linebreak-style': ['error', 'unix'],
