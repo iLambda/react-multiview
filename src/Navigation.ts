@@ -144,7 +144,7 @@ export type NavigationProps<Views extends string, ViewPropName extends string = 
 };
 
 /* The component */
-function NavigationRaw<const Views extends string, const ViewPropName extends string = typeof defaultViewIDPropName>(props: NavigationProps<Views, ViewPropName>) {
+export const Navigation = typedMemo(<const Views extends string, const ViewPropName extends string = typeof defaultViewIDPropName>(props: NavigationProps<Views, ViewPropName>) => {
     /* Create a matching handler */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const checkForActiveView = useCallback((data: any) => {
@@ -161,7 +161,4 @@ function NavigationRaw<const Views extends string, const ViewPropName extends st
     const currentView = useMemo(() => children.find(e => checkForActiveView(e.props)), [checkForActiveView, children]);
     /* If view not selected, later return error view */
     return (currentView ?? null);
-}
-
-/* Its export */
-export const Navigation = typedMemo(NavigationRaw);
+});
