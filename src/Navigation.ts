@@ -135,13 +135,17 @@ export type NavigationProps<Views extends string, ViewPropName extends string = 
     controller: NavigationController<Views>
     /* The children */
     children: ReactElement | ReactElement[]
-    /* The property names we are looking for in children */
-    viewIdProperty: 
-        /* If default property name, we don't request this */
-        [ViewPropName] extends [typeof defaultViewIDPropName] ? undefined :
-        /* If this is only one literal, ask for it. Else, ask for a list of it */ 
-        IfOnlyOneLiteral<ViewPropName, ViewPropName, ViewPropName[]>
-};
+} & 
+/* Check if property name was speficied */
+([ViewPropName] extends [typeof defaultViewIDPropName] 
+    ? {
+        /* Don't request a property, we know the name */
+        viewPropertyName?: never;
+    } 
+    : {
+        /* If this is only one literal, ask for it. Else, ask for a list of them */ 
+        viewPropertyName: IfOnlyOneLiteral<ViewPropName, ViewPropName, ViewPropName[]>
+    })
 
 /* The component */
 export const Navigation = typedMemo(<const Views extends string, const ViewPropName extends string = typeof defaultViewIDPropName>(props: NavigationProps<Views, ViewPropName>) => {
@@ -150,12 +154,12 @@ export const Navigation = typedMemo(<const Views extends string, const ViewPropN
     const checkForActiveView = useCallback((data: any) => {
         /* Get the right fit for the key */
         const key = 
-            Array.isArray(props.viewIdProperty) ? (props.viewIdProperty.find(key => key in data) ?? null) :
-            typeof props.viewIdProperty === 'string' ? (props.viewIdProperty in data ? props.viewIdProperty : null) :
+            Array.isArray(props.viewPropertyName) ? (props.viewPropertyName.find(key => key in data) ?? null) :
+            typeof props.viewPropertyName === 'string' ? (props.viewPropertyName in data ? props.viewPropertyName : null) :
             defaultViewIDPropName;
         /* Return if there is suck a key on the data, and it indeed is active */
         return key && isMatching({ [key]: props.controller.active });
-    }, [props.controller.active, props.viewIdProperty]);
+    }, [props.controller.active, props.viewPropertyName]);
     /* Get children */
     const children = useMemo(() => Array.isArray(props.children) ? props.children : [props.children], [props.children]);
     const currentView = useMemo(() => children.find(e => checkForActiveView(e.props)), [checkForActiveView, children]);
