@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
-import { NavigationViews } from './Navigation';
+import { NavigationInferViews } from '.';
+import { typedMemo } from './helpers';
 
-export function NavigationView<const Controller>( props: { view: NavigationViews<Controller>, children: ReactNode } ) {
+export const NavigationView = typedMemo(<const Controller>(props: { view: NavigationInferViews<Controller>, children?: ReactNode }) => {
     /* Return */
     return props.children;
-}
+});
