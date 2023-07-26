@@ -1,6 +1,6 @@
 {
   "name": "react-multiview",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "This package provides a hook for components with simple navigational needs : think tabs, or a simple navigation menu.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
